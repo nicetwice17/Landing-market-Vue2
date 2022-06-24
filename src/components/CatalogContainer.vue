@@ -31,9 +31,11 @@
 
 			</b-col>
 			<b-col cols="9">
-         <span class="column_name">
+        <div class="list_filters">
+             <span class="column_name">
           Найдено акций: {{this.catalog.length}}
         </span>
+        </div>
         <div class="catalog_wrapper row">
           <div
               v-for="(item) in catalog"
@@ -45,6 +47,15 @@
               </h4>
             <div class="card_image">
               <img v-bind:src="item.img" alt="">
+              <span class="discountPercent">
+              {{'-' + item.discount + '%'}}
+              </span>
+              <span class="oldPrice">
+                {{item.old}}
+              </span>
+              <span class="newPrice">
+                {{item.new}}
+              </span>
             </div>
             <p class="card_name">
               {{item.name}}
@@ -73,7 +84,7 @@ export default {
 	},
   data() {
     return {
-      checkedFilters: []
+      checkedFilters: [],
     }
   },
   methods: {
@@ -81,8 +92,6 @@ export default {
         this.$emit('changeFilters', event.target._value)
     }
   },
-	mounted() {
-	},
 }
 </script>
 
@@ -159,8 +168,9 @@ export default {
     border-bottom: 1px solid rgba(0,0,0,.1);
     cursor: pointer;
     transition: .5s;
-    padding: 10px;
+    padding: 16px 24px 16px;
     margin-bottom: 0;
+    overflow: hidden;
     .discountName {
       font-weight: 500;
       font-size: 14px;
@@ -169,10 +179,59 @@ export default {
     }
     .card_image {
       max-height: 200px;
+      margin-top: 20px;
+      position: relative;
       img {
         width: 100%;
         height: 100%;
         object-fit: cover;
+      }
+      .discountPercent {
+        position: absolute;
+        top: 0;
+        left: -16px;
+        width: inherit;
+        border-bottom-right-radius: 12px;
+        border-top-left-radius: 12px;
+        font-size: 14px;
+        background-color: #b70050;
+        padding: 0 8px;
+        line-height: 24px;
+        color: #f0f0f0;
+      }
+
+      .newPrice {
+        position: absolute;
+        bottom: 0;
+        right: -20px;
+        width: inherit;
+        border-bottom-right-radius: 25px;
+        border-top-left-radius: 25px;
+        font-size: 32px;
+        font-weight: 600;
+        background-color: #ffd500;
+        padding: 0 16px;
+        line-height: 40px;
+        color: #000000;
+      }
+
+      .oldPrice {
+        position: absolute;
+        bottom: 40px;
+        right: -20px;
+        font-size: 20px;
+        padding: 0 4px;
+        background-color: #fff;
+        color: #000000;
+        &:before {
+          content: "";
+          position: absolute;
+          top: 50%;
+          left: 0;
+          right: 0;
+          border-bottom: 1px solid #b70050;
+
+        }
       }
     }
     .card_name {
@@ -180,6 +239,8 @@ export default {
       line-height: 18px;
       font-weight: 400;
       margin: 0;
+      margin-top: 10px;
+
     }
     .date_wrapper {
       margin-top: 10px;

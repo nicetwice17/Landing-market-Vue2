@@ -17,10 +17,8 @@ export default {
   data() {
     return {
       catalog: [],
-      filteredCatalog: [],
       filterOptions: {},
-      filters: [],
-      filterUrl: ''
+      filterUrl: '',
     }
   },
   methods: {
