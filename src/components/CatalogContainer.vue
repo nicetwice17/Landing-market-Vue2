@@ -75,6 +75,17 @@
             </div>
           </div>
         </div>
+        <b-pagination
+            v-on:change="changePage"
+            v-model="currenPage"
+            :total-rows="rows"
+            :per-page="perPage"
+            last-number
+            first-number
+            prev-class="arrow"
+            next-class="arrow"
+            class="pagination"
+        ></b-pagination>
       </b-col>
 		</b-row>
 	</b-container>
@@ -87,15 +98,30 @@ export default {
 		filterOptions: Object,
 		catalog: Array,
     SelectFilterOptions: Array,
+    perPage: Number,
+    pageTotal: Number,
 	},
+  data() {
+    return {
+      currenPage: 1
+    }
+  },
   methods: {
     updateFilters(event) {
         this.$emit('changeFilters', event.target._value)
     },
     sortCatalog(event) {
       this.$emit('sortCatalog', event.target.value)
+    },
+    changePage(value) {
+      this.$emit('changePage', value)
     }
   },
+  computed: {
+    rows() {
+      return this.pageTotal
+    }
+  }
 }
 </script>
 
@@ -280,6 +306,29 @@ export default {
         }
       }
 
+    }
+  }
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    .page-link {
+      border: none;
+      color: #000000;
+    }
+    .page-item.active {
+      button {
+        background-color: #b70050;
+        border-color: #b70050;
+      }
+    }
+
+    .arrow {
+      font-size: 30px;
+      line-height: 18px;
+      padding-bottom: 6px;
+      margin: 0 20px;
+      outline: none;
     }
   }
 }
