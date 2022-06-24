@@ -2,8 +2,13 @@
   <div id="app">
     <HeaderComponent pageTitle="Акции и спецпредложения" />
 
-    <CatalogContainer :catalog="catalog" :filterOptions="filterOptions"
-      v-on:changeFilters="updateFilters($event)" />
+    <CatalogContainer
+        :catalog="catalog"
+        :filterOptions="filterOptions"
+        :SelectFilterOptions="SelectFilterOptions"
+        v-on:changeFilters="updateFilters($event)"
+        v-on:sortCatalog="sortCatalog($event)"
+    />
   </div>
 </template>
 
@@ -19,6 +24,14 @@ export default {
       catalog: [],
       filterOptions: {},
       filterUrl: '',
+      SelectFilterOptions: [
+        { value: 'new_increase', text: 'Новизна цена по возрастанию' },
+        { value: 'new_descending', text: 'Новизна цена по убыванию' },
+        { value: 'cost_increase', text: 'Цена по возрастанию' },
+        { value: 'cost_descending', text: 'Цена по убыванию' },
+        { value: 'sale_increase', text: 'Скидка по возрастанию' },
+        { value: 'sale_descending', text: 'Скидка цена по убыванию' }
+      ]
     }
   },
   methods: {
@@ -31,12 +44,19 @@ export default {
 
       axios.get(`http://localhost:3000/products?${this.filterUrl}`)
           .then(response => this.catalog = response.data)
+    },
+    sortCatalog(value){
+      console.log(value)
+      value === 'cost_increase' && this.catalog.sort((a, b) => a.new - b.new)
+      value === 'cost_descending' && this.catalog.sort((a, b) => b.new - a.new);
+      value === 'sale_increase' && this.catalog.sort((a, b) => a.discount - b.discount)
+      value === 'sale_descending' && this.catalog.sort((a, b) => b.discount - a.discount);
     }
 
   },
   mounted() {
     Promise.all([
-      axios.get('http://localhost:3000/products')
+      axios.get('http://localhost:3000/products?_page=1')
         .then(response => (this.catalog = response.data)),
       axios.get('http://localhost:3000/filterOptions')
         .then(response => (this.filterOptions = response.data))

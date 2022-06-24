@@ -30,11 +30,16 @@
         </div>
 
 			</b-col>
-			<b-col cols="9">
-        <div class="list_filters">
+			<b-col cols="9" class="catalog_list">
+        <div class="filters_list">
              <span class="column_name">
           Найдено акций: {{this.catalog.length}}
         </span>
+          <div>
+            <select @change="sortCatalog">
+              <option v-for="(item) in SelectFilterOptions" v-bind:value="item.value" v-bind:key="item.text">{{item.text}}</option>
+            </select>
+          </div>
         </div>
         <div class="catalog_wrapper row">
           <div
@@ -81,15 +86,14 @@ export default {
 	props: {
 		filterOptions: Object,
 		catalog: Array,
+    SelectFilterOptions: Array,
 	},
-  data() {
-    return {
-      checkedFilters: [],
-    }
-  },
   methods: {
     updateFilters(event) {
         this.$emit('changeFilters', event.target._value)
+    },
+    sortCatalog(event) {
+      this.$emit('sortCatalog', event.target.value)
     }
   },
 }
@@ -160,98 +164,112 @@ export default {
 
 
 
-.catalog_wrapper {
-  .card {
-    height: auto;
-    border: none;
-    border-radius: unset;
-    border-bottom: 1px solid rgba(0,0,0,.1);
-    cursor: pointer;
-    transition: .5s;
-    padding: 16px 24px 16px;
-    margin-bottom: 0;
-    overflow: hidden;
-    .discountName {
-      font-weight: 500;
-      font-size: 14px;
-      line-height: 18px;
-      text-align: center;
+.catalog_list {
+  .filters_list {
+    display: flex;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+    select {
+      border: none;
+      background-color: #ffffff;
+      outline: none;
     }
-    .card_image {
-      max-height: 200px;
-      margin-top: 20px;
-      position: relative;
-      img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-      }
-      .discountPercent {
-        position: absolute;
-        top: 0;
-        left: -16px;
-        width: inherit;
-        border-bottom-right-radius: 12px;
-        border-top-left-radius: 12px;
+    .column_name {
+      border-bottom: unset;
+    }
+  }
+  .catalog_wrapper {
+    .card {
+      height: auto;
+      border: none;
+      border-radius: unset;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      cursor: pointer;
+      transition: .5s;
+      padding: 16px 24px 16px;
+      margin-bottom: 0;
+      overflow: hidden;
+      .discountName {
+        font-weight: 500;
         font-size: 14px;
-        background-color: #b70050;
-        padding: 0 8px;
-        line-height: 24px;
-        color: #f0f0f0;
+        line-height: 18px;
+        text-align: center;
       }
-
-      .newPrice {
-        position: absolute;
-        bottom: 0;
-        right: -20px;
-        width: inherit;
-        border-bottom-right-radius: 25px;
-        border-top-left-radius: 25px;
-        font-size: 32px;
-        font-weight: 600;
-        background-color: #ffd500;
-        padding: 0 16px;
-        line-height: 40px;
-        color: #000000;
-      }
-
-      .oldPrice {
-        position: absolute;
-        bottom: 40px;
-        right: -20px;
-        font-size: 20px;
-        padding: 0 4px;
-        background-color: #fff;
-        color: #000000;
-        &:before {
-          content: "";
+      .card_image {
+        max-height: 200px;
+        margin-top: 20px;
+        position: relative;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+        .discountPercent {
           position: absolute;
-          top: 50%;
-          left: 0;
-          right: 0;
-          border-bottom: 1px solid #b70050;
+          top: 0;
+          left: -16px;
+          width: inherit;
+          border-bottom-right-radius: 12px;
+          border-top-left-radius: 12px;
+          font-size: 14px;
+          background-color: #b70050;
+          padding: 0 8px;
+          line-height: 24px;
+          color: #f0f0f0;
+        }
 
+        .newPrice {
+          position: absolute;
+          bottom: 0;
+          right: -20px;
+          width: inherit;
+          border-bottom-right-radius: 25px;
+          border-top-left-radius: 25px;
+          font-size: 32px;
+          font-weight: 600;
+          background-color: #ffd500;
+          padding: 0 16px;
+          line-height: 40px;
+          color: #000000;
+        }
+
+        .oldPrice {
+          position: absolute;
+          bottom: 40px;
+          right: -20px;
+          font-size: 20px;
+          padding: 0 4px;
+          background-color: #fff;
+          color: #000000;
+          &:before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            border-bottom: 1px solid #b70050;
+
+          }
         }
       }
-    }
-    .card_name {
-      font-size: 14px;
-      line-height: 18px;
-      font-weight: 400;
-      margin: 0;
-      margin-top: 10px;
-
-    }
-    .date_wrapper {
-      margin-top: 10px;
-      .card_date {
+      .card_name {
+        font-size: 14px;
+        line-height: 18px;
+        font-weight: 400;
         margin: 0;
-        color: rgba(0,0,0,.5);
-        font-size: 12px;
-        line-height: 15px;
-      }
-    }
+        margin-top: 10px;
 
+      }
+      .date_wrapper {
+        margin-top: 10px;
+        .card_date {
+          margin: 0;
+          color: rgba(0,0,0,.5);
+          font-size: 12px;
+          line-height: 15px;
+        }
+      }
+
+    }
   }
 }
 
