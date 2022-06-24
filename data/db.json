@@ -123,7 +123,7 @@
     {
       "id":8,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"old",
       "productType":"milk",
       "shopType":"super",
       "name":"Напиток кисломолочный ACTIMEL3, детский, клубника/банан, 2,5 %, 100 г",
@@ -152,7 +152,7 @@
     {
       "id":10,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"old",
       "productType":"animals",
       "shopType":"super",
       "name":"Корм для кошек WHISKAS4, влажный паштет, индейка/кролик, 75 г",
@@ -167,7 +167,7 @@
     {
       "id":11,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"old",
       "productType":"milk",
       "shopType":"super",
       "name":"Напиток кисломолочный ACTIMEL4, детский, клубника/банан, 2,5 %, 100 г",
@@ -198,7 +198,7 @@
     {
       "id":13,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"old",
       "productType":"animals",
       "shopType":"super",
       "name":"Корм для кошек WHISKAS, влажный паштет, индейка/кролик, 75 г",
@@ -213,7 +213,7 @@
     {
       "id":14,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"old",
       "productType":"milk",
       "shopType":"cash",
       "name":"Напиток кисломолочный ACTIMEL, детский, клубника/банан, 2,5 %, 100 г",
@@ -242,7 +242,7 @@
     {
       "id":16,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"oneToOne",
       "productType":"animals",
       "shopType":"cash",
       "name":"Корм для кошек WHISKAS 2, влажный паштет, индейка/кролик, 75 г",
@@ -287,7 +287,7 @@
     {
       "id":19,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"oneToOne",
       "productType":"animals",
       "shopType":"super",
       "name":"Корм для кошек WHISKAS3, влажный паштет, индейка/кролик, 75 г",
@@ -317,7 +317,7 @@
     {
       "id":21,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"oneToOne",
       "productType":"animals",
       "shopType":"express",
       "name":"Корм для кошек FELIX4, желе с форелью, 85 г",
@@ -347,7 +347,7 @@
     {
       "id":23,
       "discountName":"Скидки на каждой полке",
-      "discountType":"every",
+      "discountType":"oneToOne",
       "productType":"milk",
       "shopType":"super",
       "name":"Напиток кисломолочный ACTIMEL4, детский, клубника/банан, 2,5 %, 100 г",
@@ -366,19 +366,19 @@
         "id":0,
         "name":"Magnum Cash & Carry",
         "type": "Cash_Carry",
-        "filterType": "market"
+        "filterType": "marketType"
       },
       {
         "id":1,
         "name":"Magnum Express",
         "type": "Express",
-        "filterType": "market"
+        "filterType": "marketType"
       },
       {
         "id":2,
         "name":"Magnum Super",
         "type": "Super",
-        "filterType": "market"
+        "filterType": "marketType"
       }
     ],
     "categories": [
@@ -386,72 +386,81 @@
         "id":0,
         "name":"Овощи и фрукты",
         "type": "fruits",
-        "filterType": "categories"
+        "filterType": "productType"
       },
       {
         "id":1,
         "name":"Для животных",
         "type": "animals",
-        "filterType": "categories"
+        "filterType": "productType"
       },
       {
         "id":2,
         "name":"Овощи и фрукты1",
         "type": "fruits",
-        "filterType": "categories"
+        "filterType": "productType"
       },
       {
         "id":3,
         "name":"Молочные продукты",
         "type":"milk",
-        "filterType": "categories"
+        "filterType": "productType"
       },
       {
         "id":4,
         "name":"Для животных1",
-        "type": "animals"
+        "type": "animals",
+        "filterType": "productType"
       },
       {
         "id":5,
         "name":"Молочные продукты2",
-        "type":"milk"
+        "type":"milk",
+        "filterType": "productType"
       },
       {
         "id":6,
         "name":"Овощи и фрукты3",
-        "type": "fruits"
+        "type": "fruits",
+        "filterType": "productType"
       },
       {
         "id":7,
         "name":"Для животных",
-        "type": "animals"
+        "type": "animals",
+        "filterType": "productType"
       },
       {
         "id":8,
         "name":"Овощи и фрукты4",
-        "type": "fruits"
+        "type": "fruits",
+        "filterType": "productType"
       },
       {
         "id":9,
         "name":"Молочные продукты3",
-        "type":"milk"
+        "type":"milk",
+        "filterType": "productType"
       }
     ],
     "sales": [
       {
         "id": 0,
         "name": "Скидки на каждой полке",
-        "type": "every"
+        "type": "every",
+        "filterType": "discountType"
       },
       {
         "id": 1,
         "name": "1+1",
-        "type": "1+1"
+        "type": "oneToOne",
+        "filterType": "discountType"
       },
       {
         "id": 2,
         "name": "Пенсионерам",
-        "type": "old"
+        "type": "old",
+        "filterType": "discountType"
       }
     ]
 

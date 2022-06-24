@@ -25,17 +25,14 @@ export default {
   },
   methods: {
     updateFilters(filter) {
-
-      if(filter.filterType === 'market') {
-
         if(this.filterUrl.indexOf(filter.type) === -1) {
-          this.filterUrl += `marketType=${filter.type}&`
+          this.filterUrl += `${filter.filterType}=${filter.type}&`
         } else {
-          this.filterUrl = this.filterUrl.replace(`marketType=${filter.type}&`, '')
+          this.filterUrl = this.filterUrl.replace(`${filter.filterType}=${filter.type}&`, '')
         }
-        axios.get(`http://localhost:3000/products?${this.filterUrl}`)
-            .then(response => this.catalog = response.data)
-      }
+
+      axios.get(`http://localhost:3000/products?${this.filterUrl}`)
+          .then(response => this.catalog = response.data)
     }
 
   },

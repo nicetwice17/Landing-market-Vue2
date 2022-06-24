@@ -3,12 +3,12 @@
 		<b-row>
 			<b-col class="filters_col" cols="3">
         <span class="column_name">
-          Фильтры
+          Фильтры:
         </span>
 				<div class="option_box">
           <h4>Формат магазина</h4>
           <div v-for="(item) in filterOptions.format" v-bind:key="item.id" class="option_item">
-            <input v-on:change="updateFilters" class="custom-checkbox" type="checkbox" :value="item" v-bind:id="`format_checkbox${item.id}`">
+            <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" :value="item" v-bind:id="`format_checkbox${item.id}`">
             <label v-bind:for="`format_checkbox${item.id}`">{{ item.name }}</label>
           </div>
 				</div>
@@ -24,13 +24,16 @@
         <div class="option_box">
           <h4>Тип скидки</h4>
             <div v-for="(item) in filterOptions.sales" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item.type" v-bind:id="`categories_checkbox${item.id}`">
+              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item" v-bind:id="`sales_checkbox${item.id}`">
               <label v-bind:for="`sales_checkbox${item.id}`">{{ item.name }}</label>
             </div>
         </div>
 
 			</b-col>
 			<b-col cols="9">
+         <span class="column_name">
+          Найдено акций: {{this.catalog.length}}
+        </span>
         <div class="catalog_wrapper row">
           <div
               v-for="(item) in catalog"
@@ -154,7 +157,6 @@ export default {
     border: none;
     border-radius: unset;
     border-bottom: 1px solid rgba(0,0,0,.1);
-    border: 1px solid red;
     cursor: pointer;
     transition: .5s;
     padding: 10px;
