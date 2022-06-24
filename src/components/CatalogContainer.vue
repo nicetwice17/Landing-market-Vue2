@@ -182,12 +182,19 @@ export default {
       height: auto;
       border: none;
       border-radius: unset;
-      border-bottom: 1px solid rgba(0,0,0,.1);
+
       cursor: pointer;
       transition: .5s;
       padding: 16px 24px 16px;
       margin-bottom: 0;
       overflow: hidden;
+      border: 1px solid #ffffff;
+      border-bottom: 1px solid rgba(0,0,0,.1);
+      &:hover {
+        transition: .5s;
+        border-color: rgba(0,0,0,.1);
+      }
+
       .discountName {
         font-weight: 500;
         font-size: 14px;
@@ -202,6 +209,10 @@ export default {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          &:hover {
+            transform: scale(1.05);
+            transition: .5s;
+          }
         }
         .discountPercent {
           position: absolute;

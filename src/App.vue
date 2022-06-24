@@ -56,7 +56,7 @@ export default {
   },
   mounted() {
     Promise.all([
-      axios.get('http://localhost:3000/products?_page=1')
+      axios.get('http://localhost:3000/products')
         .then(response => (this.catalog = response.data)),
       axios.get('http://localhost:3000/filterOptions')
         .then(response => (this.filterOptions = response.data))
