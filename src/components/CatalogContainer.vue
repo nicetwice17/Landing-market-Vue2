@@ -1,52 +1,57 @@
 <template>
-	<b-container class="container">
+	<b-container class="catalog_container">
 		<b-row>
 			<b-col class="filters_col" cols="3">
-        <span class="column_name">
+        <span class="column_name bar_filters">
           Фильтры:
+          <a v-if="checkedFilters.length" class="reset_filters" v-on:click="resetFilters">Сбросить</a>
         </span>
-				<div class="option_box">
-          <h4>Формат магазина</h4>
-          <div v-for="(item) in filterOptions.format" v-bind:key="item.id" class="option_item">
-            <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" :value="item" v-bind:id="`format_checkbox${item.id}`">
-            <label v-bind:for="`format_checkbox${item.id}`">{{ item.name }}</label>
-          </div>
-				</div>
 
-        <div class="option_box">
-          <h4>Категории товара</h4>
+        <div class="bar_boxes">
+          <div class="option_box">
+            <h4>Формат магазина</h4>
+            <div v-for="(item) in filterOptions.format" v-bind:key="item.id" class="option_item">
+              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" :value="item" v-bind:id="`format_checkbox${item.id}`" v-model="checkedFilters">
+              <label v-bind:for="`format_checkbox${item.id}`">{{ item.name }}</label>
+            </div>
+          </div>
+
+          <div class="option_box">
+            <h4>Категории товара</h4>
             <div v-for="(item) in filterOptions.categories" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item" v-bind:id="`categories_checkbox${item.id}`">
+              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item" v-bind:id="`categories_checkbox${item.id}`" v-model="checkedFilters">
               <label v-bind:for="`categories_checkbox${item.id}`">{{ item.name }}</label>
             </div>
-        </div>
+          </div>
 
-        <div class="option_box">
-          <h4>Тип скидки</h4>
+          <div class="option_box">
+            <h4>Тип скидки</h4>
             <div v-for="(item) in filterOptions.sales" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item" v-bind:id="`sales_checkbox${item.id}`">
+              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item" v-bind:id="`sales_checkbox${item.id}`" v-model="checkedFilters">
               <label v-bind:for="`sales_checkbox${item.id}`">{{ item.name }}</label>
             </div>
+          </div>
         </div>
 
 			</b-col>
-			<b-col cols="9" class="catalog_list">
+			<b-col cols="9" class="catalog_list col-12 col-sm-12 col-md-9">
         <div class="filters_list">
-             <span class="column_name">
+         <span class="column_name sales_count">
           Найдено акций: {{this.catalog.length}}
         </span>
-          <div>
+          <div class="select_filters">
             <select @change="sortCatalog">
               <option v-for="(item) in SelectFilterOptions" v-bind:value="item.value" v-bind:key="item.text">{{item.text}}</option>
             </select>
           </div>
+          <div class="mobile_filtersBtn">Фильтр</div>
         </div>
         <div class="catalog_wrapper row">
           <div
               v-for="(item) in catalog"
               v-bind:title="item.name"
               v-bind:key="item.id"
-              class="card col-12 col-sm-6 col-md-3 col-l">
+              class="card col-6 col-sm-6 col-md-4">
               <h4 class="discountName">
                 {{item.discountName}}
               </h4>
@@ -103,7 +108,8 @@ export default {
 	},
   data() {
     return {
-      currenPage: 1
+      currenPage: 1,
+      checkedFilters: [],
     }
   },
   methods: {
@@ -115,19 +121,24 @@ export default {
     },
     changePage(value) {
       this.$emit('changePage', value)
-    }
+    },
+    resetFilters(){
+      this.checkedFilters = []
+      this.$emit('resetFilters')
+    },
   },
   computed: {
     rows() {
       return this.pageTotal
     }
-  }
+  },
 }
 </script>
 
 <style lang="scss">
-.container {
-	width: 100%;
+
+.catalog_container {
+  margin-top: 60px;
 }
 
 .category {
@@ -143,46 +154,57 @@ export default {
 }
 
 .filters_col {
-  .option_box {
-    h4 {
-      font-size: 18px;
-      display: inline-block;
+  .bar_filters {
+    display: flex;
+    justify-content: space-between;
+    .reset_filters {
+      color: #b70050;
+      cursor: pointer;
     }
-    margin-top: 20px;
-    .option_item {
-      margin-top: 20px;
-      .custom-checkbox {
-        position: absolute;
-        z-index: -1;
-        opacity: 0;
-      }
+  }
 
-      .custom-checkbox+label {
-        display: inline-flex;
-        align-items: center;
-        user-select: none;
-      }
-
-      .custom-checkbox+label::before {
-        content: '';
+  .bar_boxes {
+    .option_box {
+      h4 {
+        font-size: 18px;
         display: inline-block;
-        width: 24px;
-        height: 24px;
-        flex-shrink: 0;
-        flex-grow: 0;
-        border: 1px solid #adb5bd;
-        border-radius: 0.25em;
-        margin-right: 0.5em;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: 50% 50%;
-        cursor: pointer;
       }
+      margin-top: 20px;
+      .option_item {
+        margin-top: 20px;
+        .custom-checkbox {
+          position: absolute;
+          z-index: -1;
+          opacity: 0;
+        }
 
-      .custom-checkbox:checked+label::before {
-        border-color: #b70050;
-        background-color: #b70050;
-        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3E%3C/svg%3E");
+        .custom-checkbox+label {
+          display: inline-flex;
+          align-items: center;
+          user-select: none;
+        }
+
+        .custom-checkbox+label::before {
+          content: '';
+          display: inline-block;
+          width: 24px;
+          height: 24px;
+          flex-shrink: 0;
+          flex-grow: 0;
+          border: 1px solid #adb5bd;
+          border-radius: 0.25em;
+          margin-right: 0.5em;
+          background-repeat: no-repeat;
+          background-position: center center;
+          background-size: 50% 50%;
+          cursor: pointer;
+        }
+
+        .custom-checkbox:checked+label::before {
+          border-color: #b70050;
+          background-color: #b70050;
+          background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3E%3Cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26l2.974 2.99L8 2.193z'/%3E%3C/svg%3E");
+        }
       }
     }
   }
@@ -201,6 +223,9 @@ export default {
     }
     .column_name {
       border-bottom: unset;
+    }
+    .mobile_filtersBtn {
+      display: none;
     }
   }
   .catalog_wrapper {
@@ -333,6 +358,41 @@ export default {
   }
 }
 
-
+@media (max-width: 767px) {
+  .filters_col {
+    display: none;
+    .bar_filters {
+      display: none;
+    }
+    .bar_boxes {
+      display: none;
+    }
+  }
+  .catalog_list {
+    margin: 0 auto;
+    .filters_list {
+      align-items: center;
+      padding-bottom: 10px;
+      .sales_count {
+        display: none;
+      }
+      .mobile_filtersBtn {
+        display: block;
+        margin-left: auto;
+        background-color: #f5f7fa;
+        padding: 12px;
+        border-radius: 15px;
+      }
+      .select_filters {
+        background-color: #f5f7fa;
+        padding: 12px;
+        border-radius: 15px;
+        select {
+          background: unset;
+        }
+      }
+    }
+  }
+}
 
 </style>

@@ -12,6 +12,7 @@
         v-on:changeFilters="updateFilters($event)"
         v-on:sortCatalog="sortCatalog($event)"
         v-on:changePage="changePage($event)"
+        v-on:resetFilters="resetFilters($event)"
     />
   </div>
 </template>
@@ -44,7 +45,7 @@ export default {
     }
   },
   methods: {
-    updateFilters(filter) {
+    updateFilters(filter) { //update data with filters
         if(this.filterUrl.indexOf(filter.type) === -1) {
           this.filterUrl += `${filter.filterType}=${filter.type}&`
         } else {
@@ -54,13 +55,15 @@ export default {
       axios.get(`http://localhost:3000/products?${this.filterUrl}`)
           .then(response => this.catalog = response.data)
     },
-    sortCatalog(value){
+
+    sortCatalog(value){ //udate data with increase or descending filters
       value === 'cost_increase' && this.catalog.sort((a, b) => a.new - b.new)
       value === 'cost_descending' && this.catalog.sort((a, b) => b.new - a.new);
       value === 'sale_increase' && this.catalog.sort((a, b) => a.discount - b.discount)
       value === 'sale_descending' && this.catalog.sort((a, b) => b.discount - a.discount);
     },
-    changePage(value) {
+
+    changePage(value) { //pagination switch
       this.pagination.currentPage = value
       axios.get(`http://localhost:3000/products`, {
         params: {
@@ -70,22 +73,30 @@ export default {
       }).then(response => (
           this.pagination.total = Math.ceil(response.headers['x-total-count']) , //Pages count
               this.catalog = response.data)) //get data from current page
+    },
+
+    fetchData(){ //change all data
+      Promise.all([
+        axios.get(`http://localhost:3000/products`, {
+          params: {
+            _page: this.pagination.currentPage,
+            _limit: this.pagination.limit
+          }
+        }).then(response => (
+            this.pagination.total = Math.ceil(response.headers['x-total-count']) , //Pages count
+                this.catalog = response.data)), //get data from current page
+
+        axios.get('http://localhost:3000/filterOptions')
+            .then(response => (this.filterOptions = response.data)),
+      ])
+    },
+
+    resetFilters() {
+      this.fetchData()
     }
   },
   mounted() {
-    Promise.all([
-      axios.get(`http://localhost:3000/products`, {
-        params: {
-          _page: this.pagination.currentPage,
-          _limit: this.pagination.limit
-        }
-      }).then(response => (
-            this.pagination.total = Math.ceil(response.headers['x-total-count']) , //Pages count
-            this.catalog = response.data)), //get data from current page
-
-      axios.get('http://localhost:3000/filterOptions')
-        .then(response => (this.filterOptions = response.data)),
-    ])
+    this.fetchData()
   },
   components: {
     HeaderComponent,
