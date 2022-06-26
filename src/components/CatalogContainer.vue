@@ -51,7 +51,7 @@
               v-for="(item) in catalog"
               v-bind:title="item.name"
               v-bind:key="item.id"
-              class="card col-6 col-sm-6 col-md-4">
+              class="card col-6 col-sm-6 col-md-3">
               <h4 class="discountName">
                 {{item.discountName}}
               </h4>
