@@ -70,6 +70,7 @@
                 </div>
               </div>
             </b-collapse>
+            <a v-if="checkedFilters.length" class="reset_filters" v-on:click="resetFilters">Сбросить</a>
           </div>
         </b-sidebar>
 
@@ -196,15 +197,15 @@ export default {
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.reset_filters {
+  color: #b70050;
+  cursor: pointer;
+}
+
 .filters_col {
   .bar_filters {
     display: flex;
     justify-content: space-between;
-
-    .reset_filters {
-      color: #b70050;
-      cursor: pointer;
-    }
   }
   .bar_boxes {
     .option_box {
@@ -495,6 +496,9 @@ export default {
           }
           .not-collapsed {
             background-color: #b70050;
+          }
+          .reset_filters {
+            text-align: center;
           }
         }
       }
