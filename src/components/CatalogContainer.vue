@@ -498,7 +498,7 @@ export default {
             background-color: #b70050;
           }
           .reset_filters {
-            text-align: center;
+            text-align: center
           }
         }
       }
