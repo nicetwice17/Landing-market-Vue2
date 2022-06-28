@@ -8,67 +8,49 @@
         </span>
 
         <div class="bar_boxes">
-          <div class="option_box">
-            <h4>Формат магазина</h4>
-            <div v-for="(item) in filterOptions.format" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" :value="item"
-                     v-bind:id="`format_checkbox${item.id}`" v-model="checkedFilters">
-              <label v-bind:for="`format_checkbox${item.id}`">{{ item.name }}</label>
-            </div>
-          </div>
+          <CheckboxSectionComponent
+              filterCategory="Формат магазина"
+              :filterOptions="filterOptions"
+              filterEndPoint="format"
+          />
 
-          <div class="option_box">
-            <h4>Категории товара</h4>
-            <div v-for="(item) in filterOptions.categories" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item"
-                     v-bind:id="`categories_checkbox${item.id}`" v-model="checkedFilters">
-              <label v-bind:for="`categories_checkbox${item.id}`">{{ item.name }}</label>
-            </div>
-          </div>
+          <CheckboxSectionComponent
+              filterCategory="Категории товара"
+              :filterOptions="filterOptions"
+              filterEndPoint="categories"
+          />
 
-          <div class="option_box">
-            <h4>Тип скидки</h4>
-            <div v-for="(item) in filterOptions.sales" v-bind:key="item.id" class="option_item">
-              <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item"
-                     v-bind:id="`sales_checkbox${item.id}`" v-model="checkedFilters">
-              <label v-bind:for="`sales_checkbox${item.id}`">{{ item.name }}</label>
-            </div>
-          </div>
+          <CheckboxSectionComponent
+              filterCategory="Тип скидки"
+              :filterOptions="filterOptions"
+              filterEndPoint="sales"
+          />
         </div>
         <b-sidebar id="sidebar-left" title="Фильтр" left shadow>
           <div class="px-3 py-2">
             <b-button v-b-toggle.collapse-1>Формат магазина</b-button>
             <b-collapse class="collapse_item" id="collapse-1">
-              <div class="option_box">
-                <h4>Формат магазина</h4>
-                <div v-for="(item) in filterOptions.format" v-bind:key="item.id" class="option_item">
-                  <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" :value="item"
-                         v-bind:id="`format_checkbox${item.id}`" v-model="checkedFilters">
-                  <label v-bind:for="`format_checkbox${item.id}`">{{ item.name }}</label>
-                </div>
-              </div>
+              <CheckboxSectionComponent
+                  filterCategory="Формат магазина"
+                  :filterOptions="filterOptions"
+                  filterEndPoint="format"
+              />
             </b-collapse>
             <b-button v-b-toggle.collapse-2>Категории товаров</b-button>
             <b-collapse class="collapse_item" id="collapse-2">
-              <div class="option_box">
-                <div v-for="(item) in filterOptions.categories" v-bind:key="item.id" class="option_item">
-                  <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item"
-                         v-bind:id="`categories_checkbox${item.id}`" v-model="checkedFilters">
-                  <label v-bind:for="`categories_checkbox${item.id}`">{{ item.name }}</label>
-                </div>
-              </div>
+                <CheckboxSectionComponent
+                    filterCategory="Категории товара"
+                    :filterOptions="filterOptions"
+                    filterEndPoint="categories"
+                />
             </b-collapse>
             <b-button v-b-toggle.collapse-3>Типы скидок</b-button>
             <b-collapse class="collapse_item" id="collapse-3">
-              <div class="option_box">
-                <div class="option_box">
-                  <div v-for="(item) in filterOptions.sales" v-bind:key="item.id" class="option_item">
-                    <input v-on:click="updateFilters" class="custom-checkbox" type="checkbox" v-bind:value="item"
-                           v-bind:id="`sales_checkbox${item.id}`" v-model="checkedFilters">
-                    <label v-bind:for="`sales_checkbox${item.id}`">{{ item.name }}</label>
-                  </div>
-                </div>
-              </div>
+              <CheckboxSectionComponent
+                  filterCategory="Тип скидки"
+                  :filterOptions="filterOptions"
+                  filterEndPoint="sales"
+              />
             </b-collapse>
             <a v-if="checkedFilters.length" class="reset_filters" v-on:click="resetFilters">Сбросить</a>
           </div>
@@ -140,6 +122,8 @@
 </template>
 
 <script>
+import CheckboxSectionComponent from "@/components/CheckboxSectionComponent";
+
 export default {
   name: 'CatalogContainer',
   props: {
@@ -176,6 +160,9 @@ export default {
       return this.pageTotal
     }
   },
+  components: {
+    CheckboxSectionComponent
+  }
 }
 </script>
 
