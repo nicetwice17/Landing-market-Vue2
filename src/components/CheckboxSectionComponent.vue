@@ -20,11 +20,6 @@ export default {
     filterOptions: Object,
     filterEndPoint: String
   },
-  mounted() {
-    console.log(this.filterEndPoint)
-    // console.log()
-  }
-
 }
 </script>
 
