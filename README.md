@@ -1,5 +1,5 @@
 # market
-First experience on vue 2, with JSON-server, axios, bootstrap
+Landing page using Vue 2, with JSON-server, axios, bootstrap
 
 For start project write to terminal json-server --watch data/db.json and npm run serve
 
